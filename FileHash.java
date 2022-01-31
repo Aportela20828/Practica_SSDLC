@@ -53,22 +53,54 @@ public class FileHash {
         br.close();
     }
     
-    public static void compararHash(File archivo) throws FileNotFoundException{
+    public static void compararHash(File archivo) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
         FileReader hash = null;
         FileReader fichero = null;
         hash = new FileReader (FileHash.getHash());
         fichero = new FileReader (archivo);
         BufferedReader brhash = new BufferedReader(hash);
         BufferedReader brfichero = new BufferedReader(fichero);
-        String lineaHash, lineaFichero;
+        String lineaHash, lineaFichero, linea;
         while((lineaHash = brhash.readLine())!=null && (lineaFichero = brfichero.readLine())!=null){
             lineaHash = lineaHash.trim();
             lineaFichero = lineaFichero.trim();
-            if(lineaFichero!=null && lineaHash!=null){
-                
+            linea = FileHash.generarHash(lineaFichero);
+            if(linea!=lineaHash){
+                MenuHash.menuHash(lineaFichero);
             }
             }
-        pw.close();
-        br.close();
+        brfichero.close();
+        brhash.close();
+    }
+    
+    public static void eliminarHash(String lineaACambiar) throws NoSuchAlgorithmException, FileNotFoundException, IOException{
+        String lineaHash = FileHash.generarHash(lineaACambiar);
+        String lineaFinal = "";
+        String linea;
+        FileReader hash = null;
+        FileWriter fw = null;
+        hash = new FileReader (FileHash.getHash());
+        fw = new FileWriter (FileHash.getHash(), true);
+        BufferedReader brhash = new BufferedReader(hash);
+        PrintWriter pw = new PrintWriter(fw);
+        boolean datoAEliminar = false;
+        while((linea=brhash.readLine())!=null){
+            if(linea!=null && linea.trim()!=""){
+                if(linea.equals(lineaHash)){
+            datoAEliminar = true;
+            }
+            if(datoAEliminar == false){
+            lineaFinal = linea + "\n";
+            }    
+            }
+        }
+        fw.close();
+        FileHash.getHash().delete();
+        File txt2 = new File("hash.txt");
+	FileWriter fileNew = new FileWriter(txt2);
+	BufferedWriter bw = new BufferedWriter(fileNew);
+	fileNew.write(lineaFinal);
+	fileNew.close();
     }
 }
+
