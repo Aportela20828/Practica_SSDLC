@@ -26,10 +26,18 @@ public class MenuHash {
         }
             }
             case 2:{
-                
+                FileHash.clonarHash(archivoHash, archivo);
             }
             case 3:{
-                
+                if(archivo.toString().equals("Usuarios.txt")){
+                    FileUsuarios.modificarUsuario(linea);
+                    FileHash.generarFicheroHashUsuarios(FileUsuarios.getArchivo());
+        }       else if(archivoHash.toString().equals("hashContactos.txt")){
+                    FileContactos.modificarContacto(linea);
+                    FileHash.generarFicheroHashContactos(FileContactos.getArchivo());
+        }       else{
+                    System.out.println("Hay un error");
+        }
             }
             default:{
                 System.out.println("Esa opcion no es valida");

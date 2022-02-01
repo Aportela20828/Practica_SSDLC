@@ -147,5 +147,66 @@ public class FileUsuarios {
             
         }
     }
+        
+        public static void modificarUsuario(String usuario) {
+        FileReader fr = null;
+        try {
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter (FileUsuarios.getArchivo(), true);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            fr = new FileReader (FileContactos.getArchivo());
+            BufferedReader br = new BufferedReader(fr);
+            PrintWriter pw = new PrintWriter(fw);
+            Scanner sc = new Scanner(System.in);
+            String papel, nUsuario, contra, nombre, apellido, tlfn, linea;
+            String lineaFinal = "";
+            while((linea=br.readLine())!=null){
+            if(linea!=null && linea.trim()!=""){
+            if(linea.equals(usuario)){
+            System.out.println("Modificar dato");
+            System.out.println("Escribame el papel del usuario");
+            papel = sc.nextLine();
+            System.out.println("Escribame el nombre de usuario");
+            nUsuario = sc.nextLine();
+            System.out.println("Escribame ela contraseña");
+            contra = sc.nextLine();
+            System.out.println("Escribame el nombre");
+            nombre = sc.nextLine();
+            System.out.println("Escribame el apellido");
+            apellido = sc.nextLine();
+            System.out.println("Escribame el tlfno");
+            tlfn = sc.nextLine();
+            linea = papel + "," + nUsuario + "," + contra + "," + nombre + "," + apellido + "," + tlfn;
+            }
+            lineaFinal = linea + "\n";
+            }
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            FileContactos.getArchivo().delete();
+            File txt2 = new File("contactos.txt");
+	    FileWriter fileNew = new FileWriter(txt2);
+	    BufferedWriter bw = new BufferedWriter(fileNew);
+	    fileNew.write(lineaFinal);
+	    fileNew.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     
 }
