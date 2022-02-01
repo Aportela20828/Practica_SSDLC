@@ -6,20 +6,37 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileHash {
 
-    private static File hash;
+    private static File hashUsuarios;
+    private static File hashContactos;
 
-    public static File getHash() {
-        return hash;
+    public static File getHashUsuarios() {
+        return hashUsuarios;
     }
 
-    public static void setHash(File aHash) {
-        hash = aHash;
+    public static void setHashUsuarios(File aHashUsuarios) {
+        hashUsuarios = aHashUsuarios;
+    }
+
+    public static File getHashContactos() {
+        return hashContactos;
+    }
+
+    public static void setHashContactos(File aHashContactos) {
+        hashContactos = aHashContactos;
+    }
+
+    
+    public static void crearFicheroHashUsuarios() throws IOException{
+    if(FileHash.getHashUsuarios()==null){
+        FileHash.setHashUsuarios(new File("hashUsuarios.txt"));
+        FileHash.getHashUsuarios().createNewFile();
+    }
     }
     
-    public static void crearFicheroHash() throws IOException{
-    if(FileHash.getHash()==null){
-        FileHash.setHash(new File("hash.txt"));
-        FileHash.getHash().createNewFile();
+        public static void crearFicheroHashContactos() throws IOException{
+    if(FileHash.getHashContactos()==null){
+        FileHash.setHashContactos(new File("hashContactos.txt"));
+        FileHash.getHashContactos().createNewFile();
     }
     }
     
@@ -34,12 +51,12 @@ public class FileHash {
     return sb.toString();
     }
     
-    public static void generarFicheroHash(File fichero) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
+    public static void generarFicheroHashUsuarios(File fichero) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
         String linea;
         FileReader fr = null;
         FileWriter fw = null;
         fr = new FileReader (fichero);
-        fw = new FileWriter (FileHash.getHash(), true);
+        fw = new FileWriter (FileHash.getHashUsuarios(), true);
         PrintWriter pw = new PrintWriter(fw);
         BufferedReader br = new BufferedReader(fr);
             while((linea=br.readLine())!=null){
@@ -53,10 +70,29 @@ public class FileHash {
         br.close();
     }
     
-    public static void compararHash(File archivo) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
+        public static void generarFicheroHashContactos(File fichero) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
+        String linea;
+        FileReader fr = null;
+        FileWriter fw = null;
+        fr = new FileReader (fichero);
+        fw = new FileWriter (FileHash.getHashContactos(), true);
+        PrintWriter pw = new PrintWriter(fw);
+        BufferedReader br = new BufferedReader(fr);
+            while((linea=br.readLine())!=null){
+                linea = linea.trim();
+            if(linea!=null){
+            String lineaHash = FileHash.generarHash(linea);
+            pw.println(lineaHash + "\n");
+            }
+            }
+        pw.close();
+        br.close();
+    }
+    
+    public static void compararHashUsuario(File archivo) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
         FileReader hash = null;
         FileReader fichero = null;
-        hash = new FileReader (FileHash.getHash());
+        hash = new FileReader (FileHash.getHashUsuarios());
         fichero = new FileReader (archivo);
         BufferedReader brhash = new BufferedReader(hash);
         BufferedReader brfichero = new BufferedReader(fichero);
@@ -66,21 +102,41 @@ public class FileHash {
             lineaFichero = lineaFichero.trim();
             linea = FileHash.generarHash(lineaFichero);
             if(linea!=lineaHash){
-                MenuHash.menuHash(lineaFichero);
+                MenuHash.menuHash(lineaFichero, archivo, FileHash.getHashUsuarios());
             }
             }
         brfichero.close();
         brhash.close();
     }
     
-    public static void eliminarHash(String lineaACambiar) throws NoSuchAlgorithmException, FileNotFoundException, IOException{
+        public static void compararHashContactos(File archivo) throws FileNotFoundException, IOException, NoSuchAlgorithmException{
+        FileReader hash = null;
+        FileReader fichero = null;
+        hash = new FileReader (FileHash.getHashContactos());
+        fichero = new FileReader (archivo);
+        BufferedReader brhash = new BufferedReader(hash);
+        BufferedReader brfichero = new BufferedReader(fichero);
+        String lineaHash, lineaFichero, linea;
+        while((lineaHash = brhash.readLine())!=null && (lineaFichero = brfichero.readLine())!=null){
+            lineaHash = lineaHash.trim();
+            lineaFichero = lineaFichero.trim();
+            linea = FileHash.generarHash(lineaFichero);
+            if(linea!=lineaHash){
+                MenuHash.menuHash(lineaFichero, archivo, FileHash.getHashContactos());
+            }
+            }
+        brfichero.close();
+        brhash.close();
+    }
+    
+    public static void eliminarHash(String lineaACambiar, File archivoHash) throws NoSuchAlgorithmException, FileNotFoundException, IOException{
         String lineaHash = FileHash.generarHash(lineaACambiar);
         String lineaFinal = "";
         String linea;
         FileReader hash = null;
         FileWriter fw = null;
-        hash = new FileReader (FileHash.getHash());
-        fw = new FileWriter (FileHash.getHash(), true);
+        hash = new FileReader (archivoHash);
+        fw = new FileWriter (archivoHash, true);
         BufferedReader brhash = new BufferedReader(hash);
         PrintWriter pw = new PrintWriter(fw);
         boolean datoAEliminar = false;
@@ -95,12 +151,65 @@ public class FileHash {
             }
         }
         fw.close();
-        FileHash.getHash().delete();
-        File txt2 = new File("hash.txt");
+        if(archivoHash.toString().equals("hashUsuarios.txt")){
+            FileHash.nuevoHashUsuarios(lineaFinal);
+        }else if(archivoHash.toString().equals("hashContactos.txt")){
+            FileHash.nuevoHashContactos(lineaFinal);
+        }else{
+            System.out.println("Hay un error");
+        }
+    }
+    
+    private static void nuevoHashUsuarios(String lineaFinal) throws IOException{
+        FileHash.getHashUsuarios().delete();
+        File txt2 = new File("hashUsuarios.txt");
 	FileWriter fileNew = new FileWriter(txt2);
 	BufferedWriter bw = new BufferedWriter(fileNew);
 	fileNew.write(lineaFinal);
 	fileNew.close();
+    }
+    
+    private static void nuevoHashContactos(String lineaFinal) throws IOException{
+        FileHash.getHashContactos().delete();
+        File txt2 = new File("hashContactos.txt");
+	FileWriter fileNew = new FileWriter(txt2);
+	BufferedWriter bw = new BufferedWriter(fileNew);
+	fileNew.write(lineaFinal);
+	fileNew.close();
+    }
+    
+        public static void clonarHash(File archivoHash, File archivo) throws NoSuchAlgorithmException, FileNotFoundException, IOException{
+        String linea;
+        File archivoClon = new File("archivoClon.txt");
+        archivoClon.createNewFile();
+        FileReader fr = null;
+        FileWriter fw = null;
+        fr = new FileReader (archivo);
+        fw = new FileWriter (archivoClon, true);
+        PrintWriter pw = new PrintWriter(fw);
+        BufferedReader br = new BufferedReader(fr);
+            while((linea=br.readLine())!=null){
+                linea = linea.trim();
+            if(linea!=null){
+            String lineaHash = FileHash.generarHash(linea);
+            pw.println(lineaHash + "\n");
+            }
+            }
+        if(archivo.toString().equals("Usuario.txt")){
+            FileHash.getHashUsuarios().delete();
+            File nombreArchivo = new File("hashUsuarios.txt");
+            archivoClon.renameTo(nombreArchivo);
+            FileHash.setHashUsuarios(archivoClon);
+        }else if(archivo.toString().equals("Contactos.txt")){
+            FileHash.getHashContactos().delete();
+            File nombreArchivo = new File("hashContactos.txt");
+            archivoClon.renameTo(nombreArchivo);
+            FileHash.setHashContactos(archivoClon);
+        }else{
+            System.out.println("Hay un error");
+        }
+        pw.close();
+        br.close();
     }
 }
 

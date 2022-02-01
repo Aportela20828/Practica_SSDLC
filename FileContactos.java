@@ -145,7 +145,7 @@ public class FileContactos{
             } catch (IOException ex) {
                 Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            fr = new FileReader (FileUsuarios.getArchivo());
+            fr = new FileReader (FileContactos.getArchivo());
             BufferedReader br = new BufferedReader(fr);
             PrintWriter pw = new PrintWriter(fw);
             Scanner sc = new Scanner(System.in);
@@ -177,6 +177,7 @@ public class FileContactos{
 	    BufferedWriter bw = new BufferedWriter(fileNew);
 	    fileNew.write(lineaFinal);
 	    fileNew.close();
+            FileContactos.setArchivo(txt2);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -203,15 +204,12 @@ public class FileContactos{
             fr = new FileReader (FileUsuarios.getArchivo());
             BufferedReader br = new BufferedReader(fr);
             PrintWriter pw = new PrintWriter(fw);
-            Scanner sc = new Scanner(System.in);
             String linea;
             String lineaFinal = "";
-            String[] lineaSeparada;
             boolean contactoAEliminar = false;
             while((linea=br.readLine())!=null){
             if(linea!=null && linea.trim()!=""){
-            lineaSeparada = linea.split(",");
-            if(lineaSeparada[0].equals(contacto)){
+            if(linea.equals(contacto)){
             contactoAEliminar = true;
             }
             if(contactoAEliminar == false){
@@ -231,6 +229,7 @@ public class FileContactos{
 	    BufferedWriter bw = new BufferedWriter(fileNew);
 	    fileNew.write(lineaFinal);
 	    fileNew.close();
+            FileContactos.setArchivo(txt2);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -270,14 +269,4 @@ public class FileContactos{
             }
         }
     }
-
-
-    //File contactosClon = new File("contactosClon.txt");
-      //      FileContactos.getArchivo().renameTo(contactosClon);
-        //    File txt2 = new File("contactos.txt");
-	  //  FileWriter fileNew = new FileWriter(txt2);
-	    //BufferedWriter bw = new BufferedWriter(fileNew);
-	    //fileNew.write(lineaFinal);
-            //FileContactos.setArchivo(txt2);
-	    //fileNew.close();
 }

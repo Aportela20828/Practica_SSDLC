@@ -2,6 +2,8 @@ package com.mycompany.ssdlc_practica;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class FileUsuarios {
 
     private static File archivo;
@@ -95,4 +97,55 @@ public class FileUsuarios {
         fw.close();
     }
         
+        public static void eliminarUsuario(String usuario) {
+        FileReader fr = null;
+        try {
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter (FileUsuarios.getArchivo(), true);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            fr = new FileReader (FileUsuarios.getArchivo());
+            BufferedReader br = new BufferedReader(fr);
+            PrintWriter pw = new PrintWriter(fw);
+            String linea;
+            String lineaFinal = "";
+            boolean contactoAEliminar = false;
+            while((linea=br.readLine())!=null){
+            if(linea!=null && linea.trim()!=""){
+            if(linea.equals(usuario)){
+            contactoAEliminar = true;
+            }
+            if(contactoAEliminar == false){
+            lineaFinal = linea + "\n";
+            }
+            contactoAEliminar = false;
+            }
+            }
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FileContactos.getArchivo().delete();
+            File txt2 = new File("contactos.txt");
+	    FileWriter fileNew = new FileWriter(txt2);
+	    BufferedWriter bw = new BufferedWriter(fileNew);
+	    fileNew.write(lineaFinal);
+	    fileNew.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }
+    
 }
