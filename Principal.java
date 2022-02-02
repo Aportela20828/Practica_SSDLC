@@ -11,29 +11,38 @@ public class Principal {
         FileContactos.crearFicheroContactos();
         FileUsuarios.contarUsuarios();
         FileContactos.contarContactos();
+        FileHash.crearFicheroHashContactos();
+        FileHash.crearFicheroHashUsuarios();
+        FileHash.generarFicheroHashContactos(FileHash.getHashContactos());
+        FileHash.generarFicheroHashUsuarios(FileHash.getHashUsuarios());
+        FileHash.compararHashContactos(FileHash.getHashContactos());
+        FileHash.compararHashUsuario(FileHash.getHashUsuarios());
         System.out.println("Escribame el nombre del usuario.");
         String nombre = sc.nextLine();
         System.out.println("Escribame la contraseña");
         String contraseña = sc.nextLine();
         tipoUsuario userActual = FileUsuarios.buscarUsuario(nombre, contraseña);
+        Usuario user = null;
         if(userActual == null){
-            FileUsuarios.agregarUsuario();
+            FileUsuarios.agregarUsuario(user);
         }
         switch(userActual){
             case administrador:{
-                Usuario user = new Usuario(nombre, contraseña, userActual.toString()); 
+                user = new Usuario(nombre, contraseña, userActual.toString()); 
                 user.getRol().menu(user);
             }
             case gestor:{
-                Usuario user = new Usuario(nombre, contraseña, userActual.toString()); 
+                user = new Usuario(nombre, contraseña, userActual.toString()); 
                 user.getRol().menu(user);
             }
             case asistente:{
-                Usuario user = new Usuario(nombre, contraseña, userActual.toString()); 
+                user = new Usuario(nombre, contraseña, userActual.toString()); 
                 user.getRol().menu(user);
             }
             default:
                 System.out.println("Hay algún error");
         }
+        FileHash.compararHashContactos(FileHash.getHashContactos());
+        FileHash.compararHashUsuario(FileHash.getHashUsuarios());
     }
 }

@@ -16,7 +16,7 @@ public class Asistente extends Roles{
             switch(opcion){
                 case 1:{
                     System.out.println("Listar contactos");
-                    FileContactos.listarContactos();
+                    FileContactos.listarContactos(usuario);
                 }
                 case 0:{
                     System.out.println("Salir");

@@ -18,15 +18,15 @@ public class Gestor extends Roles{
             switch(opcion){
                 case 1:{
                     System.out.println("Listar contactos");
-                    FileContactos.listarContactos();
+                    FileContactos.listarContactos(usuario);
                 }
                 case 2:{
                     System.out.println("Agregar contacto");
-                    FileContactos.agregarContacto();
+                    FileContactos.agregarContacto(usuario);
                 }
                 case 3:{
                     System.out.println("Modificar contacto");
-                    FileContactos.modificarContacto();
+                    FileContactos.modificarContacto(usuario);
                 }
                 case 0:{
                     System.out.println("Salir");

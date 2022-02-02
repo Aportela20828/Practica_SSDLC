@@ -22,28 +22,33 @@ public class Admin extends Roles{
             switch(opcion){
                 case 1:{
                     System.out.println("Listar contactos");
-                    FileContactos.listarContactos();
+                    FileContactos.listarContactos(usuario);
                 }
                 case 2:{
                     System.out.println("Agregar contacto");
-                    FileContactos.agregarContacto();
+                try {
+                    FileContactos.agregarContacto(usuario);
+                } catch (IOException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 }
                 case 3:{
                     System.out.println("Modificar contacto");
-                    FileContactos.modificarContacto();
+                    FileContactos.modificarContacto(usuario);
                 }
                 case 4:{
                     System.out.println("Eliminar contacto");
-                    FileContactos.eliminarContacto();
+                    FileContactos.eliminarContacto(usuario);
                 }
                 case 5:{
-                    try {
-                        System.out.println("Modificar contacto");
-                        FileUsuarios.agregarUsuario();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    System.out.println("Agregar usuario");
+                try {
+                    FileUsuarios.agregarUsuario(usuario);
+                } catch (IOException ex) {
+                    Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                }
+
 
                 case 0:{
                     System.out.println("Salir");

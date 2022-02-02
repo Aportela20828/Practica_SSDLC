@@ -74,7 +74,7 @@ public class FileUsuarios {
         return null;
     }
     
-    public static void agregarUsuario() throws FileNotFoundException, IOException{
+    public static void agregarUsuario(Usuario actor) throws FileNotFoundException, IOException{
       
         FileWriter fw = new FileWriter (FileUsuarios.getArchivo(), true);
         PrintWriter pw = new PrintWriter(fw);
@@ -94,6 +94,7 @@ public class FileUsuarios {
         tlfn = sc.nextLine();
         pw.println(tipoUsuario + "," + usuario + "," + contraseña + "," + 
             nombre +","+ apellido + "," + tlfn + "\n");
+        FileAuditoria.lineaAuditoria("administardor", "agregarUsuario", true, archivo, actor);
         fw.close();
     }
         
@@ -207,6 +208,6 @@ public class FileUsuarios {
                 Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
+        }
     
 }

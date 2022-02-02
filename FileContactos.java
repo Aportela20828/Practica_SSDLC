@@ -53,7 +53,7 @@ public class FileContactos{
      System.out.println("Contactos" + FileContactos.getContadorContactos());
     } 
     
-    public static void agregarContacto() {
+    public static void agregarContacto(Usuario actor) throws IOException {
         FileWriter fw = null;
         try {
             fw = new FileWriter (FileContactos.getArchivo(), true);
@@ -75,10 +75,11 @@ public class FileContactos{
         } catch (IOException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        FileAuditoria.lineaAuditoria("gestor", "agregarContacto", true, archivo, actor);
     }
 
     
-    public static void modificarContacto() {
+    public static void modificarContacto(Usuario actor) {
         FileReader fr = null;
         try {
             FileWriter fw = null;
@@ -94,6 +95,7 @@ public class FileContactos{
             String contacto, apellido, tlfn, contactoACambiar, linea;
             String lineaFinal = "";
             String[] lineaSeparada;
+            boolean resultado = false;
             System.out.println("Escribame el nombre de contacto que quiere cambiar");
             contactoACambiar = sc.nextLine();
             while((linea=br.readLine())!=null){
@@ -107,6 +109,7 @@ public class FileContactos{
             System.out.println("Escribame el tlfno");
             tlfn = sc.nextLine();
             linea = contacto + "," + apellido + "," + tlfn;
+            resultado = true;
             }
             lineaFinal = linea + "\n";
             }
@@ -122,7 +125,7 @@ public class FileContactos{
 	    BufferedWriter bw = new BufferedWriter(fileNew);
 	    fileNew.write(lineaFinal);
 	    fileNew.close();
-
+            FileAuditoria.lineaAuditoria("gestor", "modificarContacto", resultado, archivo, actor);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -191,7 +194,7 @@ public class FileContactos{
         }
     }
 
-    public static void eliminarContacto() {
+    public static void eliminarContacto(Usuario actor) {
         FileReader fr = null;
         try {
             FileWriter fw = null;
@@ -208,6 +211,7 @@ public class FileContactos{
             String lineaFinal = "";
             String[] lineaSeparada;
             boolean contactoAEliminar = false;
+            boolean resultado = false;
             System.out.println("Escribame el nombre de contacto que quiere cambiar");
             contactoACambiar = sc.nextLine();
             while((linea=br.readLine())!=null){
@@ -215,9 +219,11 @@ public class FileContactos{
             lineaSeparada = linea.split(",");
             if(lineaSeparada[0].equals(contactoACambiar)){
             contactoAEliminar = true;
+            resultado = true;
             }
             if(contactoAEliminar == false){
             lineaFinal = linea + "\n";
+            contactoAEliminar = false;
             }
             }
             }
@@ -232,6 +238,7 @@ public class FileContactos{
 	    BufferedWriter bw = new BufferedWriter(fileNew);
 	    fileNew.write(lineaFinal);
 	    fileNew.close();
+            FileAuditoria.lineaAuditoria("administrador", "eliminarContacto", resultado, archivo, actor);
             FileContactos.setArchivo(txt2);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
@@ -300,7 +307,7 @@ public class FileContactos{
     }
     
 
-    public static void listarContactos() {
+    public static void listarContactos(Usuario actor) {
         FileReader fr = null;
         try {
             fr = new FileReader (FileUsuarios.getArchivo());
@@ -312,6 +319,7 @@ public class FileContactos{
             }
             }   
             fr.close();
+            FileAuditoria.lineaAuditoria("asistente", "listarContacto", true, archivo, actor);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileContactos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -324,4 +332,5 @@ public class FileContactos{
             }
         }
     }
+
 }
