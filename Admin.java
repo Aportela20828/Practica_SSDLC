@@ -23,6 +23,7 @@ public class Admin extends Roles{
                 case 1:{
                     System.out.println("Listar contactos");
                     FileContactos.listarContactos(usuario);
+                    break;
                 }
                 case 2:{
                     System.out.println("Agregar contacto");
@@ -31,30 +32,36 @@ public class Admin extends Roles{
                 } catch (IOException ex) {
                     Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
                 }
                 case 3:{
                     System.out.println("Modificar contacto");
                     FileContactos.modificarContacto(usuario);
+                    break;
                 }
                 case 4:{
                     System.out.println("Eliminar contacto");
                     FileContactos.eliminarContacto(usuario);
+                    break;
                 }
                 case 5:{
                     System.out.println("Agregar usuario");
                 try {
-                    FileUsuarios.agregarUsuario(usuario);
+                    FileUsuarios.agregarUsuario();
                 } catch (IOException ex) {
                     Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
                 }
 
 
                 case 0:{
                     System.out.println("Salir");
+                    break;
                 }
                 default:{
                     System.out.println("Esa opción no es valida");
+                    break;
                 }
             }
         }

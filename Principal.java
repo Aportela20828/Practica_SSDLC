@@ -13,18 +13,19 @@ public class Principal {
         FileContactos.contarContactos();
         FileHash.crearFicheroHashContactos();
         FileHash.crearFicheroHashUsuarios();
-        FileHash.generarFicheroHashContactos(FileHash.getHashContactos());
-        FileHash.generarFicheroHashUsuarios(FileHash.getHashUsuarios());
+        FileHash.generarFicheroHashContactos(FileContactos.getArchivo());
+        FileHash.generarFicheroHashUsuarios(FileUsuarios.getArchivo());
         FileHash.compararHashContactos(FileHash.getHashContactos());
         FileHash.compararHashUsuario(FileHash.getHashUsuarios());
+        FileAuditoria.crearFicheroAuditoria();
         System.out.println("Escribame el nombre del usuario.");
         String nombre = sc.nextLine();
         System.out.println("Escribame la contraseña");
         String contraseña = sc.nextLine();
         tipoUsuario userActual = FileUsuarios.buscarUsuario(nombre, contraseña);
-        Usuario user = null;
+        Usuario user;
         if(userActual == null){
-            FileUsuarios.agregarUsuario(user);
+            userActual = FileUsuarios.agregarUsuario();
         }
         switch(userActual){
             case administrador:{

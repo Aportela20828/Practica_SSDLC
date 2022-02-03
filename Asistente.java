@@ -17,12 +17,15 @@ public class Asistente extends Roles{
                 case 1:{
                     System.out.println("Listar contactos");
                     FileContactos.listarContactos(usuario);
+                    break;
                 }
                 case 0:{
                     System.out.println("Salir");
+                    break;
                 }
                 default:{
                     System.out.println("Esa opción no es valida");
+                    break;
                 }
             }
         }

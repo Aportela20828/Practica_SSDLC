@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class MenuHash {
     
     public static void menuHash(String linea, File archivo, File archivoHash) throws NoSuchAlgorithmException, IOException{
-        System.out.println("Hay algún problema en un dato en el fichero hash. \n");
-        System.out.println("1) Eliminar dato.\n");
-        System.out.println("2) Modificar dato.\n");
-        System.out.println("3) Crear nuevo fichero.\n");
+        System.out.println("Hay algún problema en un dato en el fichero hash.");
+        System.out.println("1) Eliminar dato.");
+        System.out.println("2) Modificar dato.");
+        System.out.println("3) Crear nuevo fichero.");
         Scanner sc = new Scanner(System.in);
         int opcion = sc.nextInt();
         switch(opcion){
@@ -24,6 +24,7 @@ public class MenuHash {
         }       else{
                     System.out.println("Hay un error");
         }
+                break;
             }
             case 2:{
                 FileHash.clonarHash(archivoHash, archivo);
@@ -38,9 +39,11 @@ public class MenuHash {
         }       else{
                     System.out.println("Hay un error");
         }
+                break;
             }
             default:{
                 System.out.println("Esa opcion no es valida");
+                break;
             }
         }
     }

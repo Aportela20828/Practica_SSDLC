@@ -38,7 +38,7 @@ public class FileAuditoria {
         }else{
             resul = "fracaso";
         }
-        pw.println("Fecha: "+ fecha + ", Hora: "+ hora +", Categoría: "+ categoria +", Accion: "+ accion +", Resultado: "+ resul + ", Usuario: "+ objeto.toString() +", Actor: "+ actor.toString()+".\n");
+        pw.println("Fecha: "+ fecha + ", Hora: "+ hora +", Categoría: "+ categoria +", Accion: "+ accion +", Resultado: "+ resul + ", Usuario: "+ objeto.toString() +", Actor: "+ actor.toString());
         fw.close();
     }
 }

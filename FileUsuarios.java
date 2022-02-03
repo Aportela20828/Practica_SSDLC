@@ -51,7 +51,7 @@ public class FileUsuarios {
         int i = 0;
         String[] lineaSeparada;
         //while((linea=br.readLine())!=null){
-        while(i<=(FileUsuarios.getContadorUsuarios())){
+        while(i<(FileUsuarios.getContadorUsuarios())){
             System.out.println("Contador de usuarios " + FileUsuarios.getContadorUsuarios());
             linea = br.readLine();
             linea = linea.trim();
@@ -59,12 +59,7 @@ public class FileUsuarios {
             if(linea!=null){
             lineaSeparada=linea.split(",");
             System.out.println("Linea separada " + lineaSeparada.length);
-            for(int j = 0; j<=(lineaSeparada.length)-1; i++){
-                System.out.println("Hola4");
-                System.out.println("Hueco" + i + "palabra" + lineaSeparada[i]);
-            }
             if((lineaSeparada[1].equals(nombre)) && lineaSeparada[2].equals(password)){
-                System.out.println("Hola5");
                 fr.close();
                 return tipoUsuario.valueOf(lineaSeparada[0]);
             }
@@ -74,14 +69,14 @@ public class FileUsuarios {
         return null;
     }
     
-    public static void agregarUsuario(Usuario actor) throws FileNotFoundException, IOException{
+    public static tipoUsuario agregarUsuario() throws FileNotFoundException, IOException{
       
         FileWriter fw = new FileWriter (FileUsuarios.getArchivo(), true);
         PrintWriter pw = new PrintWriter(fw);
         Scanner sc = new Scanner(System.in);
-        String tipoUsuario ,usuario, contraseña, nombre, apellido, tlfn;
+        String rol,usuario, contraseña, nombre, apellido, tlfn;
         System.out.println("Escribame el tipo de usuario");
-        tipoUsuario = sc.nextLine();
+        rol = sc.nextLine();
         System.out.println("Escribame el nombre usuario");
         usuario = sc.nextLine();
         System.out.println("Escribame la contraseña");
@@ -92,12 +87,14 @@ public class FileUsuarios {
         apellido = sc.nextLine();
         System.out.println("Escribame el tlfno");
         tlfn = sc.nextLine();
-        pw.println(tipoUsuario + "," + usuario + "," + contraseña + "," + 
-            nombre +","+ apellido + "," + tlfn + "\n");
+        Usuario actor = new Usuario(usuario, contraseña, rol);
+        pw.println(rol + "," + usuario + "," + contraseña + "," + 
+            nombre +","+ apellido + "," + tlfn);
         FileAuditoria.lineaAuditoria("administardor", "agregarUsuario", true, archivo, actor);
         fw.close();
+        return tipoUsuario.valueOf(rol);
     }
-        
+    
         public static void eliminarUsuario(String usuario) {
         FileReader fr = null;
         try {

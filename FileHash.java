@@ -41,12 +41,14 @@ public class FileHash {
     }
     
     public static String generarHash(String linea) throws NoSuchAlgorithmException{
+        System.out.println("Linea antes del hash" + linea);
         MessageDigest md5 =  MessageDigest.getInstance("MD5");
         md5.update(linea.getBytes());
         byte resultado[] = md5.digest();
         StringBuilder sb = new StringBuilder();
         for (int i=0;i< resultado.length;i++){
         sb.append(String.format("%02x", resultado[i]));   
+        System.out.println("linea despues del hash" + sb.toString());
     }
     return sb.toString();
     }
@@ -59,11 +61,13 @@ public class FileHash {
         fw = new FileWriter (FileHash.getHashUsuarios(), true);
         PrintWriter pw = new PrintWriter(fw);
         BufferedReader br = new BufferedReader(fr);
+        System.out.println("Fichero" + fichero.toString());
             while((linea=br.readLine())!=null){
                 linea = linea.trim();
             if(linea!=null){
             String lineaHash = FileHash.generarHash(linea);
-            pw.println(lineaHash + "\n");
+            pw.println(lineaHash);
+                System.out.println("Hash usuarios" + lineaHash);
             }
             }
         pw.close();
@@ -82,7 +86,8 @@ public class FileHash {
                 linea = linea.trim();
             if(linea!=null){
             String lineaHash = FileHash.generarHash(linea);
-            pw.println(lineaHash + "\n");
+            pw.println(lineaHash);
+            System.out.println("Hash contactos" + lineaHash);
             }
             }
         pw.close();

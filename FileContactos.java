@@ -69,7 +69,7 @@ public class FileContactos{
         apellido = sc.nextLine();
         System.out.println("Escribame el tlfno");
         tlfn = sc.nextLine();
-        pw.println(contacto + "," + apellido + "," + tlfn + "\n");
+        pw.println(contacto + "," + apellido + "," + tlfn);
         try {
             fw.close();
         } catch (IOException ex) {
