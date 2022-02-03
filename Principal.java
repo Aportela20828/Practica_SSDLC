@@ -13,8 +13,6 @@ public class Principal {
         FileContactos.contarContactos();
         FileHash.crearFicheroHashContactos();
         FileHash.crearFicheroHashUsuarios();
-        FileHash.generarFicheroHashContactos(FileContactos.getArchivo());
-        FileHash.generarFicheroHashUsuarios(FileUsuarios.getArchivo());
         FileHash.compararHashContactos(FileHash.getHashContactos());
         FileHash.compararHashUsuario(FileHash.getHashUsuarios());
         FileAuditoria.crearFicheroAuditoria();
