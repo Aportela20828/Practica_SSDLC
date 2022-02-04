@@ -41,6 +41,8 @@ public class Principal {
             default:
                 System.out.println("Hay algún error");
         }
+        FileHash.generarFicheroHashUsuarios(FileHash.getHashUsuarios());
+        FileHash.generarFicheroHashContactos(FileHash.getHashContactos());
         FileHash.compararHashContactos(FileHash.getHashContactos());
         FileHash.compararHashUsuario(FileHash.getHashUsuarios());
     }

@@ -40,8 +40,8 @@ public class FileUsuarios {
     while((linea=br.readLine())!=null){
         contador = contador + 1;
     }
-    FileUsuarios.setContadorUsuarios(contador - 1);
-        System.out.println("Usuarios" + FileUsuarios.getContadorUsuarios());
+        System.out.println("Contador usu "+ contador);
+    FileUsuarios.setContadorUsuarios(contador);
     } 
     
     public static tipoUsuario buscarUsuario(String nombre, String password) throws FileNotFoundException, IOException{
@@ -52,13 +52,11 @@ public class FileUsuarios {
         String[] lineaSeparada;
         //while((linea=br.readLine())!=null){
         while(i<(FileUsuarios.getContadorUsuarios())){
-            System.out.println("Contador de usuarios " + FileUsuarios.getContadorUsuarios());
             linea = br.readLine();
             linea = linea.trim();
             i=i+1;
             if(linea!=null){
             lineaSeparada=linea.split(",");
-            System.out.println("Linea separada " + lineaSeparada.length);
             if((lineaSeparada[1].equals(nombre)) && lineaSeparada[2].equals(password)){
                 fr.close();
                 return tipoUsuario.valueOf(lineaSeparada[0]);
@@ -89,7 +87,7 @@ public class FileUsuarios {
         tlfn = sc.nextLine();
         Usuario actor = new Usuario(usuario, contraseña, rol);
         pw.println(rol + "," + usuario + "," + contraseña + "," + 
-            nombre +","+ apellido + "," + tlfn);
+            nombre +","+ apellido + "," + tlfn + "\n");
         FileAuditoria.lineaAuditoria("administardor", "agregarUsuario", true, archivo, actor);
         fw.close();
         return tipoUsuario.valueOf(rol);

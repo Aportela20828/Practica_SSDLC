@@ -27,17 +27,25 @@ public class FileHash {
 
     
     public static void crearFicheroHashUsuarios() throws IOException, FileNotFoundException, NoSuchAlgorithmException{
-    if(FileHash.getHashUsuarios()==null){
-        FileHash.setHashUsuarios(new File("hashUsuarios.txt"));
-        FileHash.getHashUsuarios().createNewFile();
+    FileReader fr = null;
+    FileHash.setHashUsuarios(new File("hashUsuarios.txt"));
+    FileHash.getHashUsuarios().createNewFile();
+    fr = new FileReader (FileHash.getHashUsuarios());
+    BufferedReader br = new BufferedReader(fr);
+    if(br.readLine()==null){
+        System.out.println("Entran a crear usuarios");
         FileHash.generarFicheroHashUsuarios(FileUsuarios.getArchivo());
     }
     }
     
         public static void crearFicheroHashContactos() throws IOException, FileNotFoundException, NoSuchAlgorithmException{
-    if(FileHash.getHashContactos()==null){
-        FileHash.setHashContactos(new File("hashContactos.txt"));
-        FileHash.getHashContactos().createNewFile();
+    FileReader fr = null;
+    FileHash.setHashContactos(new File("hashContactos.txt"));
+    FileHash.getHashContactos().createNewFile();
+    fr = new FileReader (FileHash.getHashContactos());
+    BufferedReader br = new BufferedReader(fr);
+    if(br.readLine()==null){
+        System.out.println("Entran a crear contactos");
         FileHash.generarFicheroHashContactos(FileContactos.getArchivo());
     }
     }
@@ -61,14 +69,18 @@ public class FileHash {
         fw = new FileWriter (FileHash.getHashUsuarios(), true);
         PrintWriter pw = new PrintWriter(fw);
         BufferedReader br = new BufferedReader(fr);
-        System.out.println("Fichero" + fichero.toString());
         int i = 0;
-            while(FileUsuarios.getContadorUsuarios()<i){
+        System.out.println("Generar hash");
+            while(FileUsuarios.getContadorUsuarios()>i){
                 linea=br.readLine();
+                System.out.println("Linea "+ linea);
                 i = i + 1;
+                System.out.println("Contador " + i);
                 linea = linea.trim();
             if(linea!=null){
+                System.out.println("Entra a linea distinto de null");
             String lineaHash = FileHash.generarHash(linea);
+                System.out.println("Linea Hash" + lineaHash);
             pw.println(lineaHash);
             }
             }
@@ -84,8 +96,8 @@ public class FileHash {
         fw = new FileWriter (FileHash.getHashContactos(), true);
         PrintWriter pw = new PrintWriter(fw);
         BufferedReader br = new BufferedReader(fr);
-        int i = 0;
-            while(FileUsuarios.getContadorUsuarios()<i){
+        int i = 1;
+            while(FileContactos.getContadorContactos()>=i){
                 linea=br.readLine();
                 i = i + 1;
                 linea = linea.trim();
@@ -106,7 +118,11 @@ public class FileHash {
         BufferedReader brhash = new BufferedReader(hash);
         BufferedReader brfichero = new BufferedReader(fichero);
         String lineaHash, lineaFichero, linea;
-        while((lineaHash = brhash.readLine())!=null && (lineaFichero = brfichero.readLine())!=null){
+        int i = 1;
+        while(FileUsuarios.getContadorUsuarios()<=i){
+            lineaHash = brhash.readLine();
+            lineaFichero = brfichero.readLine();
+            i = 1 + 1;
             lineaHash = lineaHash.trim();
             lineaFichero = lineaFichero.trim();
             linea = FileHash.generarHash(lineaFichero);
@@ -126,7 +142,11 @@ public class FileHash {
         BufferedReader brhash = new BufferedReader(hash);
         BufferedReader brfichero = new BufferedReader(fichero);
         String lineaHash, lineaFichero, linea;
-        while((lineaHash = brhash.readLine())!=null && (lineaFichero = brfichero.readLine())!=null){
+        int i = 0;
+        while(FileContactos.getContadorContactos()<i){
+            lineaHash = brhash.readLine();
+            lineaFichero = brfichero.readLine();
+            i = 1 + 1;
             lineaHash = lineaHash.trim();
             lineaFichero = lineaFichero.trim();
             linea = FileHash.generarHash(lineaFichero);

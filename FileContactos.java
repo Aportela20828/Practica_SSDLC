@@ -49,8 +49,8 @@ public class FileContactos{
     while((linea=br.readLine())!=null){
         contador = contador + 1;
     }
-    FileContactos.setContadorContactos(contador - 1);
-     System.out.println("Contactos" + FileContactos.getContadorContactos());
+    System.out.println("Contador contac "+ contador);
+    FileContactos.setContadorContactos(contador);
     } 
     
     public static void agregarContacto(Usuario actor) throws IOException {
@@ -69,7 +69,7 @@ public class FileContactos{
         apellido = sc.nextLine();
         System.out.println("Escribame el tlfno");
         tlfn = sc.nextLine();
-        pw.println(contacto + "," + apellido + "," + tlfn);
+        pw.println(contacto + "," + apellido + "," + tlfn + "\n");
         try {
             fw.close();
         } catch (IOException ex) {
